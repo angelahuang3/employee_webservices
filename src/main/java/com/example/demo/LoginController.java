@@ -23,8 +23,6 @@ import com.example.demo.model.service.EmpService;
 @Controller
 @SessionAttributes("save")
 public class LoginController {
-	// @Autowired
-	// public EmpService service;
 	@Autowired
 	private LoginDao dao;
 	@Autowired
@@ -37,7 +35,6 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/checklogin", method = RequestMethod.POST) // 接
-	// 接值用接到值的account去撈資料庫的物件的account比對
 	public String checklogin(@ModelAttribute("login") Login login, HttpServletRequest request, Model m) {
 		Login sqlob = new Login();
 		sqlob = dao.getpermission(login.getAccount());
@@ -45,17 +42,13 @@ public class LoginController {
 		if ("-1".equals(sqlob.getAccount())) {
 			return "redirect:/loginfail";
 		} else if ((sqlob.getPassword()).equals(login.getPassword())) {
-			System.out.print("正確");
-			m.addAttribute("save", login.getAccount());// 丟入session
+			System.out.print("success");
+			m.addAttribute("save", login.getAccount());// add session
 			return "redirect:/viewlogin";
 		} else {
-			System.out.println("帳號密碼錯誤");
+			System.out.println("account or password is incorrect");
 			return "redirect:/loginfail";
 		}
-//		String password =dao.getpassword(login);
-//	//String session=(String)request.getSession().getAttribute("save");
-//	if(password==login.getPassword()) {
-//	}
 	}
 
 	@RequestMapping("/viewlogin")
